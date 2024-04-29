@@ -3,11 +3,11 @@ export interface CoreApiOptions {
     readonly serverKey: string;
     readonly clientKey: string;
 }
-declare type TransactionDetailOptions = {
+type TransactionDetailOptions = {
     readonly order_id: string;
     readonly gross_amount: number;
 };
-declare type BillingAddressOptions = {
+type BillingAddressOptions = {
     readonly first_name?: string;
     readonly last_name?: string;
     readonly emai?: string;
@@ -17,7 +17,7 @@ declare type BillingAddressOptions = {
     readonly postal_code: string;
     readonly country_code?: string;
 };
-declare type ItemDetailsOptions = {
+type ItemDetailsOptions = {
     readonly id?: string;
     readonly price: number;
     readonly quantity: number;
@@ -29,26 +29,26 @@ declare type ItemDetailsOptions = {
     readonly code_plan?: number;
     readonly mid?: number;
 };
-declare type ChargeCustomerDetailOptions = {
+type ChargeCustomerDetailOptions = {
     readonly first_name: string;
     readonly last_name: string;
     readonly email: string;
     readonly phone: string;
     readonly billing_address?: BillingAddressOptions;
 };
-declare type ShipingDetailOptions = {
+type ShipingDetailOptions = {
     readonly first_name: string;
     readonly last_name: string;
     readonly email: string;
     readonly phone: string;
     readonly billing_address?: BillingAddressOptions;
 };
-declare type DynamicDescriptorOptions = {
+type DynamicDescriptorOptions = {
     readonly merchant_name: string;
     readonly city_name: string;
     readonly country_code: string;
 };
-declare type CreditCardOptions = {
+type CreditCardOptions = {
     readonly token_id: string;
     readonly bank?: string;
     readonly installment_term?: number;
@@ -57,10 +57,10 @@ declare type CreditCardOptions = {
     readonly save_token_id?: boolean;
     readonly authentication?: boolean;
 };
-declare type ChargeBankOptions = {
+type ChargeBankOptions = {
     readonly bank: string;
 };
-declare type ChargeBankTransfer = {
+type ChargeBankTransfer = {
     readonly payment_type: string;
     readonly bank_transfer: ChargeBankOptions;
     readonly transaction_details: TransactionDetailOptions;
@@ -71,7 +71,7 @@ declare type ChargeBankTransfer = {
     readonly custom_field2?: Record<string, any>;
     readonly custom_field3?: Record<string, any>;
 };
-declare type ChargeCreditCard = {
+type ChargeCreditCard = {
     readonly payment_type: string;
     readonly transaction_details: TransactionDetailOptions;
     readonly credit_card: CreditCardOptions;
@@ -79,7 +79,7 @@ declare type ChargeCreditCard = {
     readonly customer_details?: ChargeCustomerDetailOptions;
     readonly shipping_address?: ShipingDetailOptions;
 };
-declare type CreditCardOptionsNon3DS = {
+type CreditCardOptionsNon3DS = {
     readonly number: string;
     readonly expiry_month: string;
     readonly expiry_year: string;
@@ -88,7 +88,7 @@ declare type CreditCardOptionsNon3DS = {
     readonly city_name?: string;
     readonly country_code?: string;
 };
-declare type ChargeNon3DS = {
+type ChargeNon3DS = {
     readonly payment_type: string;
     readonly transaction_details: TransactionDetailOptions;
     readonly credit_card: {
@@ -99,7 +99,7 @@ declare type ChargeNon3DS = {
     readonly customer_details?: ChargeCustomerDetailOptions;
     readonly shipping_address?: ShipingDetailOptions;
 };
-declare type CreditCardOptions3DSOptions = {
+type CreditCardOptions3DSOptions = {
     readonly number: string;
     readonly expiry_month: string;
     readonly expiry_year: string;
@@ -108,7 +108,7 @@ declare type CreditCardOptions3DSOptions = {
     readonly city_name?: string;
     readonly country_code?: string;
 };
-declare type Charge3DS = {
+type Charge3DS = {
     readonly payment_type: string;
     readonly transaction_details: TransactionDetailOptions;
     readonly credit_card: {
@@ -121,14 +121,14 @@ declare type Charge3DS = {
     readonly customer_details?: ChargeCustomerDetailOptions;
     readonly shipping_address?: ShipingDetailOptions;
 };
-declare type SubPermataOptions = {
+type SubPermataOptions = {
     readonly recipient_name?: string;
 };
-declare type BankTransferPermataOptions = {
+type BankTransferPermataOptions = {
     readonly bank: string;
     readonly permata?: SubPermataOptions;
 };
-declare type ChargePermataVirtualAccount = {
+type ChargePermataVirtualAccount = {
     readonly payment_type: string;
     readonly transaction_details: TransactionDetailOptions;
     readonly bank_transfer: BankTransferPermataOptions;
@@ -139,24 +139,24 @@ declare type ChargePermataVirtualAccount = {
     readonly expiry_duration?: string;
     readonly unit?: string;
 };
-declare type InquiryPaymentOptions = {
+type InquiryPaymentOptions = {
     readonly id: string;
     readonly en: string;
 };
-declare type FreeTextOptions = {
+type FreeTextOptions = {
     readonly inquiry?: InquiryPaymentOptions[];
     readonly payment?: InquiryPaymentOptions[];
 };
-declare type BcaOptions = {
+type BcaOptions = {
     readonly sub_company_code?: string;
 };
-declare type BankTransferBcaOptions = {
+type BankTransferBcaOptions = {
     readonly bank: string;
     readonly va_number?: number;
     readonly free_text?: FreeTextOptions;
     readonly bca?: BcaOptions;
 };
-declare type ChargeBcaVirtualAccount = {
+type ChargeBcaVirtualAccount = {
     readonly payment_type: string;
     readonly transaction_details: TransactionDetailOptions;
     readonly bank_transfer: BankTransferBcaOptions;
@@ -167,7 +167,7 @@ declare type ChargeBcaVirtualAccount = {
     readonly expiry_duration?: string;
     readonly unit?: string;
 };
-declare type EchannelOptions = {
+type EchannelOptions = {
     readonly bill_info1: string;
     readonly bill_info2: string;
     readonly bill_info3?: string;
@@ -177,7 +177,7 @@ declare type EchannelOptions = {
     readonly bill_info7?: string;
     readonly bill_info8?: string;
 };
-declare type ChargeMandiriVirtualAccount = {
+type ChargeMandiriVirtualAccount = {
     readonly payment_type: string;
     readonly transaction_details: TransactionDetailOptions;
     readonly echannel: EchannelOptions;
@@ -188,11 +188,11 @@ declare type ChargeMandiriVirtualAccount = {
     readonly expiry_duration?: string;
     readonly unit?: string;
 };
-declare type BankTransferBniOptions = {
+type BankTransferBniOptions = {
     readonly bank: string;
     readonly va_number?: string;
 };
-declare type ChargeBniVirtualAccount = {
+type ChargeBniVirtualAccount = {
     readonly payment_type: string;
     readonly transaction_details: TransactionDetailOptions;
     readonly bank_transfer: BankTransferBniOptions;
@@ -203,11 +203,11 @@ declare type ChargeBniVirtualAccount = {
     readonly expiry_duration?: string;
     readonly unit?: string;
 };
-declare type BankTransferBriOptions = {
+type BankTransferBriOptions = {
     readonly bank: string;
     readonly va_number?: string;
 };
-declare type ChargeBriVirtualAccount = {
+type ChargeBriVirtualAccount = {
     readonly payment_type: string;
     readonly transaction_details: TransactionDetailOptions;
     readonly bank_transfer: BankTransferBriOptions;
@@ -218,11 +218,11 @@ declare type ChargeBriVirtualAccount = {
     readonly expiry_duration?: string;
     readonly unit?: string;
 };
-declare type KlikPayOptions = {
+type KlikPayOptions = {
     readonly description: string;
     readonly misc_fee?: string;
 };
-declare type ChargeBcaKlikpay = {
+type ChargeBcaKlikpay = {
     readonly payment_type: string;
     readonly transaction_details: TransactionDetailOptions;
     readonly bca_klikpay: KlikPayOptions;
@@ -233,11 +233,11 @@ declare type ChargeBcaKlikpay = {
     readonly expiry_duration?: string;
     readonly unit?: string;
 };
-declare type KlikBcaOptions = {
+type KlikBcaOptions = {
     readonly description: string;
     readonly user_id: string;
 };
-declare type ChargeKlikBca = {
+type ChargeKlikBca = {
     readonly payment_type: string;
     readonly transaction_details: TransactionDetailOptions;
     readonly bca_klikbca: KlikBcaOptions;
@@ -248,7 +248,7 @@ declare type ChargeKlikBca = {
     readonly expiry_duration?: string;
     readonly unit?: string;
 };
-declare type ChargeBriEpay = {
+type ChargeBriEpay = {
     readonly payment_type: string;
     readonly transaction_details: TransactionDetailOptions;
     readonly item_details?: ItemDetailsOptions[];
@@ -258,10 +258,10 @@ declare type ChargeBriEpay = {
     readonly expiry_duration?: string;
     readonly unit?: string;
 };
-declare type CimbClickOptions = {
+type CimbClickOptions = {
     readonly description: string;
 };
-declare type ChargeCimbClick = {
+type ChargeCimbClick = {
     readonly payment_type: string;
     readonly transaction_details: TransactionDetailOptions;
     readonly cimb_clicks: CimbClickOptions;
@@ -269,7 +269,7 @@ declare type ChargeCimbClick = {
     readonly customer_details?: ChargeCustomerDetailOptions;
     readonly shipping_address?: ShipingDetailOptions;
 };
-declare type ChargeDanamonOnline = {
+type ChargeDanamonOnline = {
     readonly payment_type: string;
     readonly transaction_details: TransactionDetailOptions;
     readonly item_details?: ItemDetailsOptions[];
@@ -279,10 +279,10 @@ declare type ChargeDanamonOnline = {
     readonly expiry_duration?: string;
     readonly unit?: string;
 };
-declare type QrisOptions = {
+type QrisOptions = {
     readonly acquirer: string;
 };
-declare type ChargeQris = {
+type ChargeQris = {
     readonly payment_type: string;
     readonly transaction_details: TransactionDetailOptions;
     readonly qris?: QrisOptions;
@@ -293,14 +293,14 @@ declare type ChargeQris = {
     readonly expiry_duration?: string;
     readonly unit?: string;
 };
-declare type GopayOptions = {
+type GopayOptions = {
     readonly enable_callback?: boolean;
     readonly callback_url?: string;
     readonly account_id: string;
     readonly payment_option_token: string;
     readonly pre_auth?: boolean;
 };
-declare type ChargeGopay = {
+type ChargeGopay = {
     readonly payment_type: string;
     readonly transaction_details: TransactionDetailOptions;
     readonly gopay: GopayOptions;
@@ -311,10 +311,10 @@ declare type ChargeGopay = {
     readonly expiry_duration?: string;
     readonly unit?: string;
 };
-declare type ShoopeOptions = {
+type ShoopeOptions = {
     readonly callback_url: string;
 };
-declare type ChargeShoopePay = {
+type ChargeShoopePay = {
     readonly payment_type: string;
     readonly transaction_details: TransactionDetailOptions;
     readonly shopeepay?: ShoopeOptions;
@@ -325,11 +325,11 @@ declare type ChargeShoopePay = {
     readonly expiry_duration?: string;
     readonly unit?: string;
 };
-declare type IndomartCsStoreOptions = {
+type IndomartCsStoreOptions = {
     readonly store: string;
     readonly message?: string;
 };
-declare type ChargeIndomaret = {
+type ChargeIndomaret = {
     readonly payment_type: string;
     readonly transaction_details: TransactionDetailOptions;
     readonly cstore: IndomartCsStoreOptions;
@@ -340,13 +340,13 @@ declare type ChargeIndomaret = {
     readonly expiry_duration?: string;
     readonly unit?: string;
 };
-declare type AlfamartCsStoreOptions = {
+type AlfamartCsStoreOptions = {
     readonly store: string;
     readonly alfamart_free_text_1?: string;
     readonly alfamart_free_text_2?: string;
     readonly alfamart_free_text_3?: string;
 };
-declare type ChargeAlfamart = {
+type ChargeAlfamart = {
     readonly payment_type: string;
     readonly transaction_details: TransactionDetailOptions;
     readonly cstore: AlfamartCsStoreOptions;
@@ -357,7 +357,7 @@ declare type ChargeAlfamart = {
     readonly expiry_duration?: string;
     readonly unit?: string;
 };
-declare type ChargeAkuLaku = {
+type ChargeAkuLaku = {
     readonly payment_type: string;
     readonly transaction_details: TransactionDetailOptions;
     readonly item_details?: ItemDetailsOptions[];

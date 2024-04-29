@@ -6,6 +6,12 @@ import { matchSnap as MatchSnap } from '../utils/matchSnap';
  * Snap object used to do request to Midtrans Snap API
  */
 export class Snap {
+    apiConfig;
+    httpClient;
+    transaction;
+    apiUrl;
+    requestPayload;
+    matchSnap;
     constructor(options) {
         this.apiConfig = new ApiConfig(options);
         this.httpClient = new HttpClient(this);
@@ -57,3 +63,4 @@ export class Snap {
         return this.createTransaction(this.requestPayload).then((res) => res.redirect_url);
     }
 }
+//# sourceMappingURL=snap.js.map

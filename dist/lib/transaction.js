@@ -7,6 +7,8 @@ exports.Transaction = void 0;
  * @return {Promise} - Promise that contains JSON API response decoded as Object
  */
 class Transaction {
+    parent;
+    apiUrl;
     constructor(options) {
         this.parent = options;
     }
@@ -151,3 +153,4 @@ class Transaction {
 exports.Transaction = Transaction;
 class MidtransNotificationError extends Error {
 }
+//# sourceMappingURL=transaction.js.map

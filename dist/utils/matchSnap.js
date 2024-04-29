@@ -22,3 +22,4 @@ const matchSnap = (type) => {
     ].includes(type);
 };
 exports.matchSnap = matchSnap;
+//# sourceMappingURL=matchSnap.js.map

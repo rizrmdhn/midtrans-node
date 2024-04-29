@@ -18,3 +18,4 @@ export const matchSnap = (type) => {
         'snapShopeePay'
     ].includes(type);
 };
+//# sourceMappingURL=matchSnap.js.map

@@ -112,6 +112,7 @@ export class Iris {
 	): ReturnType<() => Promise<Record<string, any>>> {
 		this.apiUrl = this.apiConfig.getIrisApiBaseUrl() + '/payouts'
 		return this.httpClient.request({
+			headers: {},
 			requestUrl: this.apiUrl,
 			httpMethod: 'post',
 			serverKey: this.apiConfig.get().serverKey,

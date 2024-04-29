@@ -15,4 +15,5 @@ var MidtransClient;
     class Iris extends iris_1.Iris {
     }
     MidtransClient.Iris = Iris;
-})(MidtransClient = exports.MidtransClient || (exports.MidtransClient = {}));
+})(MidtransClient || (exports.MidtransClient = MidtransClient = {}));
+//# sourceMappingURL=index.js.map

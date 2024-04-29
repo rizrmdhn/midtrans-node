@@ -3,11 +3,11 @@ export interface SnapOptions {
     readonly serverKey: string;
     readonly clientKey: string;
 }
-declare type TransactionDetailOptions = {
+type TransactionDetailOptions = {
     readonly order_id: string;
     readonly gross_amount: number;
 };
-declare type BillingAddressOptions = {
+type BillingAddressOptions = {
     readonly first_name?: string;
     readonly last_name?: string;
     readonly emai?: string;
@@ -17,7 +17,7 @@ declare type BillingAddressOptions = {
     readonly postal_code: string;
     readonly country_code?: string;
 };
-declare type ItemDetailsOptions = {
+type ItemDetailsOptions = {
     readonly id?: string;
     readonly price: number;
     readonly quantity: number;
@@ -29,30 +29,30 @@ declare type ItemDetailsOptions = {
     readonly code_plan?: number;
     readonly mid?: number;
 };
-declare type CustomerDetailOptions = {
+type CustomerDetailOptions = {
     readonly first_name: string;
     readonly last_name: string;
     readonly email: string;
     readonly phone: string;
     readonly billing_address?: BillingAddressOptions;
 };
-declare type ShipingDetailOptions = {
+type ShipingDetailOptions = {
     readonly first_name: string;
     readonly last_name: string;
     readonly email: string;
     readonly phone: string;
     readonly billing_address?: BillingAddressOptions;
 };
-declare type DynamicDescriptorOptions = {
+type DynamicDescriptorOptions = {
     readonly merchant_name: string;
     readonly city_name: string;
     readonly country_code: string;
 };
-declare type InstallmentOptions = {
+type InstallmentOptions = {
     readonly required: boolean;
     readonly terms: Record<string, number[]>;
 };
-declare type CreditCardOptions = {
+type CreditCardOptions = {
     readonly secure?: boolean;
     readonly bank: string;
     readonly channel?: string;
@@ -69,11 +69,11 @@ interface SnapCreditCard {
     readonly enabled_payments?: string[];
     readonly credit_card?: CreditCardOptions;
 }
-declare type FreeTextOptions = {
+type FreeTextOptions = {
     readonly inquiry: Record<string, string>;
     readonly payment: Record<string, string>;
 };
-declare type BcaVtOptions = {
+type BcaVtOptions = {
     readonly va_number: boolean;
     readonly sub_company_code?: string;
     readonly free_text?: FreeTextOptions;
@@ -86,7 +86,7 @@ interface SnapBcaVirtualAccount {
     readonly enabled_payments?: string[];
     readonly bca_va?: BcaVtOptions;
 }
-declare type PermataVTOptions = {
+type PermataVTOptions = {
     readonly va_number: boolean;
     readonly recipient_name?: string;
 };
@@ -98,7 +98,7 @@ interface SnapPermataVirtualAccount {
     readonly enabled_payments?: string[];
     readonly permata_va?: PermataVTOptions;
 }
-declare type BniVTOptions = {
+type BniVTOptions = {
     readonly va_number: boolean;
 };
 interface SnapBniVirtualAccount {
@@ -109,7 +109,7 @@ interface SnapBniVirtualAccount {
     readonly enabled_payments?: string[];
     readonly bni_va?: BniVTOptions;
 }
-declare type BriVTOptions = {
+type BriVTOptions = {
     readonly va_number: boolean;
 };
 interface SnapBriVirtualAccount {
@@ -127,7 +127,7 @@ interface SnapMandiriVirtualAccount {
     readonly shipping_address?: ShipingDetailOptions;
     readonly enabled_payments?: string[];
 }
-declare type GopayOptions = {
+type GopayOptions = {
     readonly enable_callback?: boolean;
     readonly callback_url?: string;
 };
@@ -195,7 +195,7 @@ interface SnapAkuLaku {
     readonly shipping_address?: ShipingDetailOptions;
     readonly enabled_payments?: string[];
 }
-declare type ShopeePayOptions = {
+type ShopeePayOptions = {
     readonly callback_url: string;
 };
 interface SnapShopeePay {
@@ -206,10 +206,10 @@ interface SnapShopeePay {
     readonly enabled_payments?: string[];
     readonly shopeepay?: ShopeePayOptions;
 }
-declare type CallbacksOptions = {
+type CallbacksOptions = {
     readonly finish: string;
 };
-declare type ExpiryOptions = {
+type ExpiryOptions = {
     readonly start_time: string;
     readonly unit: string;
     readonly duration: number;

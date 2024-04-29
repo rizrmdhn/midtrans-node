@@ -13,3 +13,4 @@ export var MidtransClient;
     }
     MidtransClient.Iris = Iris;
 })(MidtransClient || (MidtransClient = {}));
+//# sourceMappingURL=index.js.map

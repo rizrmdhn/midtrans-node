@@ -25,7 +25,7 @@ describe('Snap', () => {
 		expect(snap.apiConfig.get().clientKey).toStrictEqual(config.clientKey)
 	})
 
-	it('able to create transaction simple param', async (done) => {
+	it('able to create transaction simple param', async () => {
 		const spySnap = jest.spyOn(snap, 'createTransaction')
 		const res = await snap.createTransaction(generateParamMin())
 		expect(spySnap).toHaveBeenCalled()
@@ -34,10 +34,9 @@ describe('Snap', () => {
 		expect(isType(res.token)).toStrictEqual('string')
 		expect(res).toHaveProperty('redirect_url')
 		expect(isType(res.token)).toStrictEqual('string')
-		done()
 	})
 
-	it('able to create transaction max param', async (done) => {
+	it('able to create transaction max param', async () => {
 		const spySnap = jest.spyOn(snap, 'createTransaction')
 		const res = await snap.createTransaction(generateParamMax())
 		expect(spySnap).toHaveBeenCalled()
@@ -46,25 +45,22 @@ describe('Snap', () => {
 		expect(isType(res.token)).toStrictEqual('string')
 		expect(res).toHaveProperty('redirect_url')
 		expect(isType(res.token)).toStrictEqual('string')
-		done()
 	})
 
-	it('able to create transaction token', async (done) => {
+	it('able to create transaction token', async () => {
 		const spySnap = jest.spyOn(snap, 'createTransactionToken')
 		const token = await snap.createTransactionToken(generateParamMin())
 		expect(spySnap).toHaveBeenCalled()
 		expect(spySnap).toHaveBeenCalledTimes(1)
 		expect(isType(token)).toStrictEqual('string')
-		done()
 	})
 
-	it('able to create transaction redirect_url', async (done) => {
+	it('able to create transaction redirect_url', async () => {
 		const spySnap = jest.spyOn(snap, 'createTransactionRedirectUrl')
 		const redirect_url = await snap.createTransactionRedirectUrl(generateParamMin())
 		expect(spySnap).toHaveBeenCalled()
 		expect(spySnap).toHaveBeenCalledTimes(1)
 		expect(isType(redirect_url)).toStrictEqual('string')
-		done()
 	})
 
 	it('fail to status transaction 404 with non exists order_id', (done) => {
@@ -96,14 +92,13 @@ describe('Snap', () => {
 		expect(snap.apiConfig.get().clientKey).toStrictEqual('abc')
 	})
 
-	it('fail to create transaction 401 with no serverKey', (done) => {
+	it('fail to create transaction 401 with no serverKey', () => {
 		const spySnap = jest.spyOn(snap, 'createTransaction')
 		snap.apiConfig.set({ serverKey: '' })
 		return snap.createTransaction(generateParamMin()).catch((e) => {
 			expect(spySnap).toHaveBeenCalled()
 			expect(spySnap).toHaveBeenCalledTimes(1)
 			expect(e.message).toMatch(/401/)
-			done()
 		})
 	})
 

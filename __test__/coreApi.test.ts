@@ -1,6 +1,9 @@
 import { isType } from 'is-any-type'
 import { CoreApi } from '../src/lib/coreApi'
 import { config } from '../config'
+import { getError } from '../src/utils/getError'
+import { NoErrorThrownError } from '../src/lib/noErrorThrown'
+import { MidtransError } from '../src/lib/midtransError'
 
 let coreApi
 let tokenId = ''
@@ -35,7 +38,7 @@ describe('CoreApi', () => {
 		expect(isType(coreApi.apiConfig.get().clientKey)).toStrictEqual('string')
 	})
 
-	it('able to get cc token', async (done) => {
+	it('able to get cc token', async () => {
 		const spyCoreApi = jest.spyOn(coreApi, 'cardToken')
 		const res = await coreApi.cardToken({
 			card_number: '5264 2210 3887 4659',
@@ -49,11 +52,10 @@ describe('CoreApi', () => {
 		expect(isType(res.status_code)).toStrictEqual('string')
 		expect(isType(res.token_id)).toStrictEqual('string')
 		expect(res.status_code).toStrictEqual('200')
-		done()
 		tokenId = res.token_id
 	})
 
-	it('able to card register cc', async (done) => {
+	it('able to card register cc', async () => {
 		const spyCoreApi = jest.spyOn(coreApi, 'cardRegister')
 		const res = await coreApi.cardRegister({
 			card_number: '4811 1111 1111 1114',
@@ -67,20 +69,21 @@ describe('CoreApi', () => {
 		expect(isType(res.status_code)).toStrictEqual('string')
 		expect(isType(res.saved_token_id)).toStrictEqual('string')
 		expect(res.status_code).toStrictEqual('200')
-		done()
+
 		savedTokenId = res.saved_token_id
 	})
 
-	it('fail to card point inquiry 402', () => {
+	it('fail to card point inquiry 402', async () => {
 		const spyCoreApi = jest.spyOn(coreApi, 'cardPointInquiry')
-		return coreApi.cardPointInquiry(tokenId).catch((e) => {
-			expect(spyCoreApi).toHaveBeenCalled()
-			expect(spyCoreApi).toHaveBeenCalledTimes(1)
-			expect(e.httpStatusCode).toStrictEqual('402')
-		})
+		const error = await getError<MidtransError>(() => coreApi.cardPointInquiry(tokenId))
+
+		expect(spyCoreApi).toHaveBeenCalled()
+		expect(spyCoreApi).toHaveBeenCalledTimes(1)
+		expect(error).not.toBeInstanceOf(NoErrorThrownError)
+		expect(error.message).toMatch(/402/)
 	})
 
-	it('able to charge cc simple', async (done) => {
+	it('able to charge cc simple', async () => {
 		const spyCoreApi = jest.spyOn(coreApi, 'charge')
 		const parameter = generateCCParamMin(reuseOrderId[1], tokenId)
 		const res = await coreApi.charge(parameter)
@@ -89,10 +92,9 @@ describe('CoreApi', () => {
 		expect(res.status_code).toStrictEqual('200')
 		expect(res.transaction_status).toStrictEqual('capture')
 		expect(res.fraud_status).toStrictEqual('accept')
-		done()
 	})
 
-	it('able to charge cc one click', async (done) => {
+	it('able to charge cc one click', async () => {
 		const spyCoreApi = jest.spyOn(coreApi, 'charge')
 		const parameter = generateCCParamMin(reuseOrderId[2], savedTokenId)
 		const res = await coreApi.charge(parameter)
@@ -101,10 +103,9 @@ describe('CoreApi', () => {
 		expect(res.status_code).toStrictEqual('200')
 		expect(res.transaction_status).toStrictEqual('capture')
 		expect(res.fraud_status).toStrictEqual('accept')
-		done()
 	})
 
-	it('able to charge bank transfer BCA VA simple', async (done) => {
+	it('able to charge bank transfer BCA VA simple', async () => {
 		const spyCoreApi = jest.spyOn(coreApi, 'charge')
 		const res = await coreApi.charge(generateParamMin(reuseOrderId[0]))
 		expect(spyCoreApi).toHaveBeenCalled()
@@ -113,10 +114,9 @@ describe('CoreApi', () => {
 		expect(res.status_code).toStrictEqual('201')
 		expect(isType(res.transaction_status)).toStrictEqual('string')
 		expect(res.transaction_status).toStrictEqual('pending')
-		done()
 	})
 
-	it('able to status', async (done) => {
+	it('able to status', async () => {
 		const spyCoreApi = jest.spyOn(coreApi.transaction, 'status')
 		const res = await coreApi.transaction.status(reuseOrderId[0])
 		apiResponse = res
@@ -124,112 +124,109 @@ describe('CoreApi', () => {
 		expect(spyCoreApi).toHaveBeenCalledTimes(1)
 		expect(res.status_code).toStrictEqual('201')
 		expect(res.transaction_status).toStrictEqual('pending')
-		done()
 	})
 
-	it('able to notification from object', async (done) => {
+	it('able to notification from object', async () => {
 		const spyCoreApi = jest.spyOn(coreApi.transaction, 'notification')
 		const res = await coreApi.transaction.notification(apiResponse)
 		expect(spyCoreApi).toHaveBeenCalled()
 		expect(spyCoreApi).toHaveBeenCalledTimes(1)
 		expect(res.status_code).toStrictEqual('201')
 		expect(res.transaction_status).toStrictEqual('pending')
-		done()
 	})
 
-	it('able to notification from json string', async (done) => {
+	it('able to notification from json string', async () => {
 		const spyCoreApi = jest.spyOn(coreApi.transaction, 'notification')
 		const res = await coreApi.transaction.notification(JSON.stringify(apiResponse))
 		expect(spyCoreApi).toHaveBeenCalled()
 		expect(spyCoreApi).toHaveBeenCalledTimes(1)
 		expect(res.status_code).toStrictEqual('201')
 		expect(res.transaction_status).toStrictEqual('pending')
-		done()
 	})
 
-	it('able to throw exception notification from empty string', () => {
+	it('able to throw exception notification from empty string', async () => {
 		const spyCoreApi = jest.spyOn(coreApi.transaction, 'notification')
-		return coreApi.transaction.notification('').catch((e) => {
-			expect(spyCoreApi).toHaveBeenCalled()
-			expect(spyCoreApi).toHaveBeenCalledTimes(1)
-			expect(e.message).toMatch(/fail to parse/)
-		})
+		const error = await getError<MidtransError>(() => coreApi.transaction.notification(''))
+
+		expect(spyCoreApi).toHaveBeenCalled()
+		expect(spyCoreApi).toHaveBeenCalledTimes(1)
+		expect(error.message).toMatch(/fail to parse/)
 	})
 
-	it('able to expire', async (done) => {
+	it('able to expire', async () => {
 		const spyCoreApi = jest.spyOn(coreApi.transaction, 'expire')
 		const res = await coreApi.transaction.expire(reuseOrderId[0])
 		expect(spyCoreApi).toHaveBeenCalled()
 		expect(spyCoreApi).toHaveBeenCalledTimes(1)
 		expect(res.status_code).toStrictEqual('407')
 		expect(res.transaction_status).toStrictEqual('expire')
-		done()
 	})
 
-	it('fail to approve transaction that cannot be updated', () => {
+	it('fail to approve transaction that cannot be updated', async () => {
 		const spyCoreApi = jest.spyOn(coreApi.transaction, 'approve')
-		return coreApi.transaction.approve(reuseOrderId[1]).catch((e) => {
-			expect(spyCoreApi).toHaveBeenCalled()
-			expect(spyCoreApi).toHaveBeenCalledTimes(1)
-			expect(e.message).toMatch(/412/)
-		})
+		const error = await getError<MidtransError>(() => coreApi.transaction.approve(reuseOrderId[1]))
+
+		expect(spyCoreApi).toHaveBeenCalled()
+		expect(spyCoreApi).toHaveBeenCalledTimes(1)
+		expect(error.message).toMatch(/412/)
 	})
 
-	it('fail to deny transaction that cannot be updated', () => {
+	it('fail to deny transaction that cannot be updated', async () => {
 		const spyCoreApi = jest.spyOn(coreApi.transaction, 'deny')
-		return coreApi.transaction.deny(reuseOrderId[1]).catch((e) => {
-			expect(spyCoreApi).toHaveBeenCalled()
-			expect(spyCoreApi).toHaveBeenCalledTimes(1)
-			expect(e.message).toMatch(/412/)
-		})
+		const error = await getError<MidtransError>(() => coreApi.transaction.deny(reuseOrderId[1]))
+
+		expect(spyCoreApi).toHaveBeenCalled()
+		expect(spyCoreApi).toHaveBeenCalledTimes(1)
+		expect(error.message).toMatch(/412/)
 	})
 
-	it('able to cancel', async (done) => {
+	it('able to cancel', async () => {
 		const spyCoreApi = jest.spyOn(coreApi.transaction, 'cancel')
 		const res = await coreApi.transaction.cancel(reuseOrderId[1])
 		expect(spyCoreApi).toHaveBeenCalled()
 		expect(spyCoreApi).toHaveBeenCalledTimes(1)
 		expect(res.status_code).toStrictEqual('200')
 		expect(res.transaction_status).toStrictEqual('cancel')
-		done()
 	})
 
-	it('fail to refund non settlement transaction', () => {
+	it('fail to refund non settlement transaction', async () => {
 		const spyCoreApi = jest.spyOn(coreApi.transaction, 'refund')
 		const parameter = { amount: 5000, reason: 'for some reason' }
-		return coreApi.transaction.refund(reuseOrderId[2], parameter).catch((e) => {
-			expect(spyCoreApi).toHaveBeenCalled()
-			expect(spyCoreApi).toHaveBeenCalledTimes(1)
-			expect(e.message).toMatch(/412/)
-		})
+		const error = await getError<MidtransError>(() => coreApi.transaction.refund(reuseOrderId[2], parameter))
+
+		expect(spyCoreApi).toHaveBeenCalled()
+		expect(spyCoreApi).toHaveBeenCalledTimes(1)
+		expect(error.message).toMatch(/412/)
 	})
 
-	it('fail to direct refund non settlement transaction', () => {
+	it('fail to direct refund non settlement transaction', async () => {
 		const spyCoreApi = jest.spyOn(coreApi.transaction, 'refundDirect')
 		const parameter = { amount: 5000, reason: 'for some reason' }
-		return coreApi.transaction.refundDirect(reuseOrderId[2], parameter).catch((e) => {
-			expect(spyCoreApi).toHaveBeenCalled()
-			expect(spyCoreApi).toHaveBeenCalledTimes(1)
-			expect(e.message).toMatch(/412/)
-		})
+
+		const error = await getError<MidtransError>(() => coreApi.transaction.refundDirect(reuseOrderId[2], parameter))
+
+		expect(spyCoreApi).toHaveBeenCalled()
+		expect(spyCoreApi).toHaveBeenCalledTimes(1)
+		expect(error.message).toMatch(/412/)
 	})
 
-	it('fail to status 404 non exists transaction', () => {
+	it('fail to status 404 non exists transaction', async () => {
 		const spyCoreApi = jest.spyOn(coreApi.transaction, 'status')
-		return coreApi.transaction.status('non-exists-transaction').catch((e) => {
-			expect(spyCoreApi).toHaveBeenCalled()
-			expect(spyCoreApi).toHaveBeenCalledTimes(1)
-			expect(e.message).toMatch(/404/)
-		})
+
+		const error = await getError<MidtransError>(() => coreApi.transaction.status('non-exists-transaction'))
+
+		expect(spyCoreApi).toHaveBeenCalled()
+		expect(spyCoreApi).toHaveBeenCalledTimes(1)
+		expect(error.message).toMatch(/404/)
 	})
 
-	it('fail to statusb2b 404 non exists transaction', () => {
+	it('fail to statusb2b 404 non exists transaction', async () => {
 		const spyCoreApi = jest.spyOn(coreApi.transaction, 'statusb2b')
-		return coreApi.transaction.statusb2b('non-exists-transaction').catch((e) => {
-			expect(spyCoreApi).toHaveBeenCalled()
-			expect(spyCoreApi).toHaveBeenCalledTimes(1)
-			expect(e.message).toMatch(/404/)
-		})
+		const error = await getError<MidtransError>(() => coreApi.transaction.statusb2b('non-exists-transaction'))
+
+		expect(spyCoreApi).toHaveBeenCalled()
+		expect(spyCoreApi).toHaveBeenCalledTimes(1)
+		expect(error.message).toMatch(/404/)
 	})
 
 	it('able to re-set serverKey via setter', () => {
@@ -257,44 +254,45 @@ describe('CoreApi', () => {
 		expect(coreApi.apiConfig.get().clientKey).toStrictEqual('abc')
 	})
 
-	it('fail to charge 401 with no serverKey', () => {
-		const spyCoreApi = jest.spyOn(coreApi, 'charge')
-		return coreApi.charge(generateParamMin()).catch((e) => {
-			expect(spyCoreApi).toHaveBeenCalled()
-			expect(spyCoreApi).toHaveBeenCalledTimes(1)
-			expect(e.message).toMatch(/401/)
-		})
+	it('fail to charge 401 with no serverKey', async () => {
+		let newCoreApi = new CoreApi(generateConfigWithoutServerKey())
+		const spyCoreApi = jest.spyOn(newCoreApi, 'charge')
+
+		const error = await getError<MidtransError>(() => newCoreApi.charge(generateParamMin()))
+
+		expect(spyCoreApi).toHaveBeenCalled()
+		expect(spyCoreApi).toHaveBeenCalledTimes(1)
+		expect(error.message).toMatch(/401/)
 	})
 
-	it('fail to charge 400 with empty param', () => {
+	it('fail to charge 400 with empty param', async () => {
 		const spyCoreApi = jest.spyOn(coreApi, 'charge')
-		return coreApi.charge(null).catch((e) => {
-			expect(spyCoreApi).toHaveBeenCalledTimes(1)
-			expect(e.message).toMatch(/400/)
-		})
+		const res = await getError<MidtransError>(() => coreApi.charge({}))
+
+		expect(spyCoreApi).toHaveBeenCalledTimes(1)
+		expect(res.message).toMatch(/400/)
 	})
 
-	it('fail to charge 400 with zero gross_amount', () => {
+	it('fail to charge 400 with zero gross_amount', async () => {
 		const spyCoreApi = jest.spyOn(coreApi, 'charge')
 		const parameter = generateParamMin()
 		parameter.transaction_details.gross_amount = 0
-		return coreApi.charge(parameter).catch((e) => {
-			expect(spyCoreApi).toHaveBeenCalled()
-			expect(spyCoreApi).toHaveBeenCalledTimes(1)
-			expect(e.message).toMatch(/400/)
-		})
+
+		const error = await getError<MidtransError>(() => coreApi.charge(parameter))
+
+		expect(spyCoreApi).toHaveBeenCalled()
+		expect(spyCoreApi).toHaveBeenCalledTimes(1)
+		expect(error.message).toMatch(/400/)
 	})
 
-	it('fail to capture charge transaction_id cannot be update 402', (done) => {
-		return coreApi
-			.capture({
+	it('fail to capture charge transaction_id cannot be update 402', async () => {
+		const error = await getError<MidtransError>(() =>
+			coreApi.capture({
 				transaction_id: '5bce24c4-6566-40c6-9c65-4366ad43de28',
 				gross_amount: '44145.00'
 			})
-			.catch((e) => {
-				expect(e.message).toMatch(/412/)
-				done()
-			})
+		)
+		expect(error.message).toMatch(/412/)
 	})
 })
 
@@ -314,7 +312,15 @@ function generateConfig() {
 	}
 }
 
-function generateParamMin(orderId = null) {
+function generateConfigWithoutServerKey() {
+	return {
+		isProduction: false,
+		serverKey: '',
+		clientKey: config.clientKey
+	}
+}
+
+function generateParamMin(orderId?: string) {
 	return {
 		payment_type: 'bank_transfer',
 		transaction_details: {
@@ -325,7 +331,7 @@ function generateParamMin(orderId = null) {
 	}
 }
 
-function generateCCParamMin(orderId = null, tokenId = null) {
+function generateCCParamMin(orderId?: string, tokenId?: string) {
 	return {
 		payment_type: 'credit_card',
 		transaction_details: {

@@ -13,13 +13,18 @@ const midtransError_1 = require("./midtransError");
  * capable to do HTTP `request`
  */
 class HttpClient {
+    parent;
+    httpClient;
+    headers;
+    requestBody;
+    requestParam;
     constructor(options = {}) {
         this.parent = options;
         this.httpClient = axios_1.default.create();
         this.headers = {
             'content-type': 'application/json',
             'accept': 'application/json',
-            'user-agent': 'midtransclient-nodejs/1.2.3'
+            'user-agent': 'midtransclient-nodejs/1.3.0'
         };
         this.requestBody = {};
         this.requestParam = {};
@@ -37,21 +42,21 @@ class HttpClient {
             requestBody = options.requestPayload;
         }
         return new Promise(async (resolve, reject) => {
-            if (is_any_type_1.isType(requestBody) === 'string' || is_any_type_1.isType(requestParam) === 'string') {
+            if ((0, is_any_type_1.isType)(requestBody) === 'string' || (0, is_any_type_1.isType)(requestParam) === 'string') {
                 // Reject if body is not JSON
                 try {
                     requestBody = JSON.parse(requestBody);
                     requestParam = JSON.parse(requestParam);
                 }
                 catch (err) {
-                    reject(new midtransError_1.MidtransError({ message: `request is must be a object you give type ${is_any_type_1.isType(requestBody)}` }));
+                    reject(new midtransError_1.MidtransError({ message: `request is must be a object you give type ${(0, is_any_type_1.isType)(requestBody)}` }));
                 }
             }
             // Fetching data from server
             try {
-                const res = await axios_1.default({
+                const res = await (0, axios_1.default)({
                     method: options.httpMethod,
-                    headers: headers,
+                    headers,
                     url: options.requestUrl,
                     data: requestBody,
                     params: requestParam,
@@ -69,7 +74,7 @@ class HttpClient {
             }
             catch (err) {
                 let res = err.response;
-                if (is_any_type_1.isType(res) !== 'undefined' && res.status >= 400) {
+                if ((0, is_any_type_1.isType)(res) !== 'undefined' && res.status >= 400) {
                     // Reject API error HTTP status code
                     reject(new midtransError_1.MidtransError({ message: err.message }));
                 }
@@ -80,3 +85,4 @@ class HttpClient {
     }
 }
 exports.HttpClient = HttpClient;
+//# sourceMappingURL=httpClient.js.map

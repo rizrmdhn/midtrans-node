@@ -4,6 +4,8 @@
  * @return {Promise} - Promise that contains JSON API response decoded as Object
  */
 export class Transaction {
+    parent;
+    apiUrl;
     constructor(options) {
         this.parent = options;
     }
@@ -147,3 +149,4 @@ export class Transaction {
 }
 class MidtransNotificationError extends Error {
 }
+//# sourceMappingURL=transaction.js.map

@@ -7,6 +7,7 @@ exports.MidtransError = void 0;
  * To expose more info for lib user
  */
 class MidtransError extends Error {
+    name;
     // private readonly httpStatusCode?: number
     // private readonly ApiResponse?: any
     // private readonly rawHttpClientData?: any
@@ -22,3 +23,4 @@ class MidtransError extends Error {
     }
 }
 exports.MidtransError = MidtransError;
+//# sourceMappingURL=midtransError.js.map

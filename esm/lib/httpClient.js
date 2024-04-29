@@ -7,13 +7,18 @@ import { MidtransError } from './midtransError';
  * capable to do HTTP `request`
  */
 export class HttpClient {
+    parent;
+    httpClient;
+    headers;
+    requestBody;
+    requestParam;
     constructor(options = {}) {
         this.parent = options;
         this.httpClient = axios.create();
         this.headers = {
             'content-type': 'application/json',
             'accept': 'application/json',
-            'user-agent': 'midtransclient-nodejs/1.2.3'
+            'user-agent': 'midtransclient-nodejs/1.3.0'
         };
         this.requestBody = {};
         this.requestParam = {};
@@ -45,7 +50,7 @@ export class HttpClient {
             try {
                 const res = await axios({
                     method: options.httpMethod,
-                    headers: headers,
+                    headers,
                     url: options.requestUrl,
                     data: requestBody,
                     params: requestParam,
@@ -73,3 +78,4 @@ export class HttpClient {
         });
     }
 }
+//# sourceMappingURL=httpClient.js.map

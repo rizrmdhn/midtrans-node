@@ -6,6 +6,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ApiConfig = void 0;
 const lodash_1 = __importDefault(require("lodash"));
 class ApiConfig {
+    static CORE_SANDBOX_BASE_URL = 'https://api.sandbox.midtrans.com/v2';
+    static CORE_PRODUCTION_BASE_URL = 'https://api.midtrans.com/v2';
+    static SNAP_SANDBOX_BASE_URL = 'https://app.sandbox.midtrans.com/snap/v1';
+    static SNAP_PRODUCTION_BASE_URL = 'https://app.midtrans.com/snap/v1';
+    static IRIS_SANDBOX_BASE_URL = 'https://app.sandbox.midtrans.com/iris/api/v1';
+    static IRIS_PRODUCTION_BASE_URL = 'https://app.midtrans.com/iris/api/v1';
+    isProduction;
+    serverKey;
+    clientKey;
+    parsedOptions;
+    mergedConfig;
     /**
      * Initiate with options
      * @param  {Object} options - should have these props:
@@ -65,9 +76,4 @@ class ApiConfig {
     }
 }
 exports.ApiConfig = ApiConfig;
-ApiConfig.CORE_SANDBOX_BASE_URL = 'https://api.sandbox.midtrans.com/v2';
-ApiConfig.CORE_PRODUCTION_BASE_URL = 'https://api.midtrans.com/v2';
-ApiConfig.SNAP_SANDBOX_BASE_URL = 'https://app.sandbox.midtrans.com/snap/v1';
-ApiConfig.SNAP_PRODUCTION_BASE_URL = 'https://app.midtrans.com/snap/v1';
-ApiConfig.IRIS_SANDBOX_BASE_URL = 'https://app.sandbox.midtrans.com/iris/api/v1';
-ApiConfig.IRIS_PRODUCTION_BASE_URL = 'https://app.midtrans.com/iris/api/v1';
+//# sourceMappingURL=apiConfig.js.map

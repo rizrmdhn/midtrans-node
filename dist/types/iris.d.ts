@@ -10,7 +10,7 @@ export interface BeneficiariesOptions {
     readonly alias_name?: string;
     readonly email: string;
 }
-declare type SubPayoutOptions = {
+type SubPayoutOptions = {
     readonly beneficiary_name: string;
     readonly beneficiary_account: string;
     readonly beneficiary_bank: string;

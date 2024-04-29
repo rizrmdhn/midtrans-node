@@ -9,6 +9,12 @@ const matchSnap_1 = require("../utils/matchSnap");
  * Snap object used to do request to Midtrans Snap API
  */
 class Snap {
+    apiConfig;
+    httpClient;
+    transaction;
+    apiUrl;
+    requestPayload;
+    matchSnap;
     constructor(options) {
         this.apiConfig = new apiConfig_1.ApiConfig(options);
         this.httpClient = new httpClient_1.HttpClient(this);
@@ -61,3 +67,4 @@ class Snap {
     }
 }
 exports.Snap = Snap;
+//# sourceMappingURL=snap.js.map

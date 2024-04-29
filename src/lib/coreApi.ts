@@ -42,6 +42,7 @@ export class CoreApi {
 	): ReturnType<() => Promise<Record<string, any>>> {
 		this.apiUrl = this.apiConfig.getCoreApiBaseUrl() + '/charge'
 		const res = parameter
+		console.log(res)
 		return this.httpClient.request({
 			requestUrl: this.apiUrl,
 			httpMethod: 'post',

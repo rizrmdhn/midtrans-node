@@ -5,6 +5,15 @@ import { Transaction } from './transaction';
  * Iris API is Midtrans’ cash management solution that allows you to disburse payments to any bank accounts in Indonesia securely and easily. Iris connects to the banks’ hosts to enable seamless transfer using integrated APIs.
  */
 export class Iris {
+    /**
+     * Initiate with options
+     * @param  {Object} options - should have these props:
+     * isProduction, apiKey
+     */
+    apiConfig;
+    httpClient;
+    transaction;
+    apiUrl;
     constructor(options) {
         this.apiConfig = new ApiConfig(options);
         this.httpClient = new HttpClient(this);
@@ -73,6 +82,7 @@ export class Iris {
     createPayouts(parameter) {
         this.apiUrl = this.apiConfig.getIrisApiBaseUrl() + '/payouts';
         return this.httpClient.request({
+            headers: {},
             requestUrl: this.apiUrl,
             httpMethod: 'post',
             serverKey: this.apiConfig.get().serverKey,
@@ -215,3 +225,4 @@ export class Iris {
         });
     }
 }
+//# sourceMappingURL=iris.js.map

@@ -4,6 +4,7 @@
  * To expose more info for lib user
  */
 export class MidtransError extends Error {
+    name;
     // private readonly httpStatusCode?: number
     // private readonly ApiResponse?: any
     // private readonly rawHttpClientData?: any
@@ -18,3 +19,4 @@ export class MidtransError extends Error {
         Error.captureStackTrace(this, this.constructor);
     }
 }
+//# sourceMappingURL=midtransError.js.map

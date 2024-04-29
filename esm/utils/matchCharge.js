@@ -22,3 +22,4 @@ export const matchCharge = (type) => {
         'chargeAkuLaku'
     ].includes(type);
 };
+//# sourceMappingURL=matchCharge.js.map

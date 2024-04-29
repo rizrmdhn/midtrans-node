@@ -26,7 +26,7 @@ export class HttpClient {
 		this.headers = {
 			'content-type': 'application/json',
 			'accept': 'application/json',
-			'user-agent': 'midtransclient-nodejs/1.2.5'
+			'user-agent': 'midtransclient-nodejs/1.3.0'
 		}
 		this.requestBody = {}
 		this.requestParam = {}
@@ -63,7 +63,7 @@ export class HttpClient {
 			try {
 				const res: AxiosResponse = await axios({
 					method: options.httpMethod as Method,
-					headers: headers,
+					headers,
 					url: options.requestUrl,
 					data: requestBody,
 					params: requestParam,

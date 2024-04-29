@@ -1,4 +1,4 @@
-declare type HttpClientOptionsConfigs = {
+type HttpClientOptionsConfigs = {
     readonly isProduction?: boolean;
     readonly serverKey?: string;
     readonly clientKey?: string;

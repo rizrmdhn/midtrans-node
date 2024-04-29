@@ -40,8 +40,8 @@ export class Snap {
 				parameter === null || parameter === undefined
 					? parameter
 					: !this.matchSnap(Object.keys(parameter)[0])
-					? parameter
-					: Object.values(parameter)[0]
+						? parameter
+						: Object.values(parameter)[0]
 		})
 	}
 
@@ -57,8 +57,8 @@ export class Snap {
 			parameter === null || parameter === undefined
 				? parameter
 				: !this.matchSnap(Object.keys(parameter)[0])
-				? parameter
-				: Object.values(parameter)[0]
+					? parameter
+					: Object.values(parameter)[0]
 		return this.createTransaction(this.requestPayload).then((res) => res.token)
 	}
 
@@ -74,8 +74,8 @@ export class Snap {
 			parameter === null || parameter === undefined
 				? parameter
 				: !this.matchSnap(Object.keys(parameter)[0])
-				? parameter
-				: Object.values(parameter)[0]
+					? parameter
+					: Object.values(parameter)[0]
 		return this.createTransaction(this.requestPayload).then((res) => res.redirect_url)
 	}
 }

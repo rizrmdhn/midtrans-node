@@ -9,6 +9,16 @@ const matchCharge_1 = require("../utils/matchCharge");
  * CoreApi Midtrans is a RESTful Web Service served as a communication bridge between merchants and our payment channels.
  */
 class CoreApi {
+    /**
+     * Initiate with options
+     * @param  {Object} options - should have these props:
+     * isProduction, serverKey, clientKey
+     */
+    apiConfig;
+    httpClient;
+    transaction;
+    apiUrl;
+    requestPayload;
     constructor(options) {
         this.apiConfig = new apiConfig_1.ApiConfig(options);
         this.httpClient = new httpClient_1.HttpClient(this);
@@ -22,11 +32,12 @@ class CoreApi {
     charge(parameter) {
         this.apiUrl = this.apiConfig.getCoreApiBaseUrl() + '/charge';
         const res = parameter;
+        console.log(res);
         return this.httpClient.request({
             requestUrl: this.apiUrl,
             httpMethod: 'post',
             serverKey: this.apiConfig.get().serverKey,
-            requestPayload: res === null || res === undefined ? res : !matchCharge_1.matchCharge(Object.keys(res)[0]) ? res : Object.values(res)[0]
+            requestPayload: res === null || res === undefined ? res : !(0, matchCharge_1.matchCharge)(Object.keys(res)[0]) ? res : Object.values(res)[0]
         });
     }
     /**
@@ -86,3 +97,4 @@ class CoreApi {
     }
 }
 exports.CoreApi = CoreApi;
+//# sourceMappingURL=coreApi.js.map
